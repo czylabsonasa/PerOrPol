@@ -1,4 +1,6 @@
 * `Newton2()`: generates a random quadratic polynomial with length 2 periodic orbit.
+* `Newton3()`: generates a random cubic polynomial with length 3 periodic orbit.
+
 * usage:
 ```julia
 import Pkg
