@@ -13,5 +13,6 @@ dp=derivative(p)
 step(x)=x-p(x)//dp(x)
 x1,x2=ret.orbit
 @assert step(x1)==x2 && step(x2)==x1
+
 ```
   
