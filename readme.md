@@ -11,7 +11,7 @@ ret=Newton2()
 p=Polynomial(ret.pol[3:-1:1])
 dp=derivative(p)
 step(x)=x-p(x)//dp(x)
-x1,x2=ret.x
+x1,x2=ret.orbit
 @assert step(x1)==x2 && step(x2)==x1
 ```
   
