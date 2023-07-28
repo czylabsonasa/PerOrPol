@@ -1,5 +1,5 @@
 """
-### generate periodic orbit polynomials
+### generate rational coefficient periodic orbit polynomials
 """
 module PerOrPol
   using StatsBase: sample
