@@ -28,4 +28,5 @@ x1,x2,x3=ret.orbit
 @assert step(x1)==x2 && step(x2)==x3 && step(x3)==x1
 
 ```
-* it is my 1st "package" in julia - still try to learn the stuff.
+* This is my 1st "package" in julia - still try to learn the stuff. The functions (in different form) 
+was used in generating moodle-quizzes for my numerical mathematics courses.
