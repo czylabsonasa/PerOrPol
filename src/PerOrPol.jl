@@ -1,3 +1,6 @@
+"""
+### generate periodic orbit polynomials
+"""
 module PerOrPol
   using StatsBase: sample
   using LinearAlgebra: det
@@ -6,11 +9,12 @@ module PerOrPol
   const _pool_up=10
   const _co_lo=-30
   const _co_up=30
-  
-  # generate a random quadratic poly with Newton period of length 2 
-  # returns (pol=(a,b,c),x=(x1,x2)), 
-  # where the required polynomial is ax^2+bx+c, and 
-  # Newton's method generates: x1->x2->x1...
+
+"""  
+  it generates a random quadratic poly with Newton period of length 2 
+  returns (pol=(a,b,c),x=(x1,x2)), where the required polynomial is ax^2+bx+c, and 
+  Newton's method generates: x1->x2->x1...
+"""
   function Newton2(
     pool_lo::Int=_pool_lo,
     pool_up::Int=_pool_up,
@@ -35,7 +39,7 @@ module PerOrPol
       a,b=LHS\RHS
       all(co_lo .≤ [a.num,a.den,b.num,b.den] .≤ co_up) && break
     end
-    (pol=(a,b,c),orbit=(x1,x2))
+    (pol=(a,b,c),orbity=(x1,x2))
   end
   
 
