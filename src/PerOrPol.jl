@@ -35,7 +35,7 @@ module PerOrPol
       a,b=LHS\RHS
       all(co_lo .≤ [a.num,a.den,b.num,b.den] .≤ co_up) && break
     end
-    (pol=(a,b,c),x=(x1,x2))
+    (pol=(a,b,c),orbit=(x1,x2))
   end
   
 

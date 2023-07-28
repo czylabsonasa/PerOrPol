@@ -10,7 +10,7 @@ import Polynomials: Polynomial, derivative
 ret=Newton2()
 p=Polynomial(ret.pol[3:-1:1])
 dp=derivative(p)
-step(x)=x-p(x)/dp(x)
+step(x)=x-p(x)//dp(x)
 x1,x2=ret.x
 @assert step(x1)==x2 && step(x2)==x1
 ```
