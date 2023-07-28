@@ -1,3 +1,5 @@
+### Periodic Orbit Polynomials
+
 * `Newton2()`: generates a random quadratic polynomial with length 2 periodic orbit.
 * `Newton3()`: generates a random cubic polynomial with length 3 periodic orbit.
 
@@ -26,4 +28,4 @@ x1,x2,x3=ret.orbit
 @assert step(x1)==x2 && step(x2)==x3 && step(x3)==x1
 
 ```
-  
+* it is my 1st "package" in julia - still try to learn the stuff.
