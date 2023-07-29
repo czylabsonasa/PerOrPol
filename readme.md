@@ -2,6 +2,10 @@
 
 * `Newton_p2()`: generates a random quadratic polynomial with length 2 periodic orbit.
 * `Newton_p3()`: generates a random cubic polynomial with length 3 periodic orbit.
+* `Newton_p(p::Int)`: generates a random degree of `p` polynomial with length `p` periodic orbit.
+  * note that, the default approach  - using `Rational{Int}` for solving the linear system - is not appropriate for 
+  for getting an exact polynomial for p≥4, with the default bound settings, bcos of overflows.
+  * but u can use `BigFloat`...
 
 * usage:
 ```julia
@@ -9,23 +13,35 @@ import Pkg
 Pkg.activate(;temp=true)
 Pkg.add(;url="https://github.com/czylabsonasa/PerOrPol")
 Pkg.add("Polynomials") # for testing
-import PerOrPol: Newton_p2, Newton_p3
+import PerOrPol: Newton_p2, Newton_p3, Newton_p
 import Polynomials: Polynomial, derivative
 
+rstep(x,f,df)=x-f(x)//df(x)
 ret=Newton_p2()
-p=Polynomial(ret.pol)
-dp=derivative(p)
-step(x)=x-p(x)//dp(x)
+pol=Polynomial(ret.pol)
+dpol=derivative(pol)
 x1,x2=ret.orbit
-@assert step(x1)==x2 && step(x2)==x1
+@assert rstep(x1,pol,dpol)==x2 && rstep(x2,pol,dpol)==x1
 
 
 ret=Newton_p3()
-p=Polynomial(ret.pol)
-dp=derivative(p)
-step(x)=x-p(x)//dp(x)
+pol=Polynomial(ret.pol)
+dpol=derivative(pol)
 x1,x2,x3=ret.orbit
-@assert step(x1)==x2 && step(x2)==x3 && step(x3)==x1
+@assert step(x1,pol,dpol)==x2 && step(x2,pol,dpol)==x3 && step(x3,pol,dpol)==x1
+
+
+fstep(x,f,df)=x-f(x)/df(x)
+setprecision(BigFloat,128)
+for p in 4:8
+  ret=Newton_p(p,(lhs_type=BigFloat,))
+  pol=Polynomial(ret.pol)
+  dpol=derivative(pol)
+  x=ret.orbit
+  x=[x...,x[1]]
+  @assert all([isapprox(fstep(x[k],pol,dpol),x[k+1]) for k in 1:p])
+end 
+
 
 ```
 * This is my 1st "package" in julia - still try to learn the stuff. The functions (in different form) 

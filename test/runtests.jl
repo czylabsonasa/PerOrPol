@@ -5,18 +5,18 @@ import Test:
 import Polynomials: 
   Polynomial,derivative
 import PerOrPol: 
-  Newton_p2, Newton_p3
+  Newton_p2, Newton_p3, Newton_p
 
 # Newton step
-step(x,f,df)=x-f(x)//df(x)
+rstep(x,f,df)=x-f(x)//df(x)
 
 @testset "Newton_p2" begin 
   for t in 1:10
     ret=Newton_p2()
-    p=Polynomial(ret.pol)
-    dp=derivative(p)
+    pol=Polynomial(ret.pol)
+    dpol=derivative(pol)
     x1,x2=ret.orbit
-    @test step(x1,p,dp)==x2 && step(x2,p,dp)==x1
+    @test rstep(x1,pol,dpol)==x2 && rstep(x2,pol,dpol)==x1
   end 
 end
 
@@ -24,10 +24,24 @@ end
 @testset "Newton_p3" begin 
   for t in 1:10
     ret=Newton_p3()
-    p=Polynomial(ret.pol)
-    dp=derivative(p)
+    pol=Polynomial(ret.pol)
+    dpol=derivative(pol)
     x1,x2,x3=ret.orbit
-    @test step(x1,p,dp)==x2 && step(x2,p,dp)==x3 && step(x3,p,dp)==x1
+    @test rstep(x1,pol,dpol)==x2 && rstep(x2,pol,dpol)==x3 && rstep(x3,pol,dpol)==x1
+  end 
+end
+
+
+fstep(x,f,df)=x-f(x)/df(x)
+setprecision(BigFloat,128)
+@testset "Newton_p(4:8)" begin 
+  for p in 4:8
+    ret=Newton_p(p,(lhs_type=BigFloat,))
+    pol=Polynomial(ret.pol)
+    dpol=derivative(pol)
+    x=ret.orbit
+    x=[x...,x[1]]
+    @test all([isapprox(fstep(x[k],pol,dpol),x[k+1]) for k in 1:p])
   end 
 end
 
