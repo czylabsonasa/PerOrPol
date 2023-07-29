@@ -4,7 +4,7 @@
 * `Newton_p3()`: generates a random cubic polynomial with length 3 periodic orbit.
 * `Newton_p(p::Int)`: generates a random degree of `p` polynomial with length `p` periodic orbit.
   * note that, the default approach  - using `Rational{Int}` for solving the linear system - is not appropriate for p≥4, with the default bound settings, bcos of overflows.
-  * the `p=4` is amenable with `Rational{BigFloat}`, after tweaking the bounds `p=5` can be ok.
+  * the `p=4` is amenable with `Rational{BigInt}` (see the `res` dir) and after tweaking the bounds `p=5` can be ok.
   * u can use `Float64/BigFloat`...
 
 
