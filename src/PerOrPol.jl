@@ -11,7 +11,7 @@ module PerOrPol
   const _co_up=30
 
 """
-    Newton2(;<keyword arguments>)
+    Newton_p2(;<keyword arguments>)
   it generates a random quadratic poly with Newton-period of length 2 and
   returns a namedtuple `(pol=[c,b,a],x=[x1,x2])`, where the required polynomial is ax^2+bx+c and 
   Newton's method generates: `x1->x2->x1...`.
@@ -50,7 +50,7 @@ module PerOrPol
   end
 
 """  
-    Newton3(;<keyword arguments>)
+    Newton_p3(;<keyword arguments>)
 
   it generates a random quadratic poly with Newton-period of length 3 and
   returns a namedtuple `(pol=[d,c,b,a],x=[x1,x2,x3])`, where the required polynomial is `ax^3+bx^2+cx+d`, and 
@@ -87,6 +87,49 @@ module PerOrPol
     (pol=[d,c,b,a],orbit=[x1,x2,x3])
   end
   
+
+
+"""  
+    Newton_p(p::Int;<keyword arguments>)
+
+  it generates a random degree of `p` poly with Newton-period of length `p` and
+  returns a namedtuple `(pol=a,x=x)`, where the required polynomial is `a[0]+a[1]x+...a[p]x^p`, and 
+  Newton's method generates the orbit: `x1->x2->...->xp->x1...`
+
+# Arguments:
+* `p` is the length of the orbit.
+* the kwargs  are lower and upper bounds related to the random selection of the numbers used in the process
+"""
+  function Newton_p(
+    pool_lo::Int=_pool_lo,
+    pool_up::Int=_pool_up,
+    co_lo::Int=_co_lo,
+    co_up::Int=_co_up
+  )
+    
+    alap=collect(pool_lo:pool_up)
+    pool=Rational{Int}[]
+    for den in [1,2,4,8]
+      pool=vcat(pool,alap//den)
+    end
+    pool=setdiff(pool, 0) # all coeff and the orbit points are nonzero (ad-hoc condition)
+
+    genrow(x,y)=[2*x^3-3*x^2*y, x^2-2*x*y, -y]'
+    x=fill(0//1,d)
+    a=
+    1,x2,x3,a,b,c,d=fill(0//1,7)
+    while true
+      x1,x2,x3=sample(pool, 3, replace=false)
+      LHS=vcat(genrow(x1,x2),genrow(x2,x3),genrow(x3,x1))
+      iszero(det(LHS)) && continue
+      d=rand(pool)
+      RHS=[d; d; d]
+      a,b,c=LHS\RHS
+      all(co_lo .≤ [a.num,a.den,b.num,b.den,c.num,c.den] .≤ co_up) && break
+    end
+    (pol=[d,c,b,a],orbit=[x1,x2,x3])
+  end
+
   
 
 end # module PerOrPol
