@@ -13,13 +13,13 @@ module PerOrPol
 """
     Newton2(;<keyword arguments>)
   it generates a random quadratic poly with Newton-period of length 2 and
-  returns a namedtuple `(pol=(a,b,c),x=(x1,x2))`, where the required polynomial is ax^2+bx+c and 
+  returns a namedtuple `(pol=[c,b,a],x=[x1,x2])`, where the required polynomial is ax^2+bx+c and 
   Newton's method generates: `x1->x2->x1...`.
 
 # Arguments:
 * they are lower and upper bounds related to the random selection of the numbers used in the process
 """
-  function Newton2(
+  function Newton_p2(
     ;
     pool_lo::Int=_pool_lo,
     pool_up::Int=_pool_up,
@@ -46,20 +46,20 @@ module PerOrPol
       a,b=LHS\RHS
       all(co_lo .≤ [a.num,a.den,b.num,b.den] .≤ co_up) && break
     end
-    (pol=(a,b,c),orbit=(x1,x2))
+    (pol=[c,b,a],orbit=[x1,x2])
   end
 
 """  
     Newton3(;<keyword arguments>)
 
   it generates a random quadratic poly with Newton-period of length 3 and
-  returns a namedtuple `(pol=(a,b,c,d),x=(x1,x2,x3))`, where the required polynomial is `ax^3+bx^2+cx+d`, and 
+  returns a namedtuple `(pol=[d,c,b,a],x=[x1,x2,x3])`, where the required polynomial is `ax^3+bx^2+cx+d`, and 
   Newton's method generates the orbit: `x1->x2->x3->x1...`
 
 # Arguments:
 * they are lower and upper bounds related to the random selection of the numbers used in the process
 """
-  function Newton3(
+  function Newton_p3(
     pool_lo::Int=_pool_lo,
     pool_up::Int=_pool_up,
     co_lo::Int=_co_lo,
@@ -84,7 +84,7 @@ module PerOrPol
       a,b,c=LHS\RHS
       all(co_lo .≤ [a.num,a.den,b.num,b.den,c.num,c.den] .≤ co_up) && break
     end
-    (pol=(a,b,c,d),orbit=(x1,x2,x3))
+    (pol=[d,c,b,a],orbit=[x1,x2,x3])
   end
   
   
