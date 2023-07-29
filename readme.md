@@ -3,8 +3,7 @@
 * `Newton_p2()`: generates a random quadratic polynomial with length 2 periodic orbit.
 * `Newton_p3()`: generates a random cubic polynomial with length 3 periodic orbit.
 * `Newton_p(p::Int)`: generates a random degree of `p` polynomial with length `p` periodic orbit.
-  * note that, the default approach  - using `Rational{Int}` for solving the linear system - is not appropriate for 
-  for getting an exact polynomial for p≥4, with the default bound settings, bcos of overflows.
+  * note that, the default approach  - using `Rational{Int}` for solving the linear system - is not appropriate for p≥4, with the default bound settings, bcos of overflows.
   * but u can use `BigFloat`...
 
 * usage:
@@ -28,7 +27,7 @@ ret=Newton_p3()
 pol=Polynomial(ret.pol)
 dpol=derivative(pol)
 x1,x2,x3=ret.orbit
-@assert step(x1,pol,dpol)==x2 && step(x2,pol,dpol)==x3 && step(x3,pol,dpol)==x1
+@assert rstep(x1,pol,dpol)==x2 && rstep(x2,pol,dpol)==x3 && rstep(x3,pol,dpol)==x1
 
 
 fstep(x,f,df)=x-f(x)/df(x)
